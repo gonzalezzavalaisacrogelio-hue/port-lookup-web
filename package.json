@@ -1,0 +1,10 @@
+{
+  "name": "port-lookup-web",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Official website for Port Lookup API",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  }
+}
