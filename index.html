@@ -3,10 +3,10 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Port Lookup API</title>
+    <title>Port Lookup API - Información de Puertos en Tiempo Real</title>
     <meta
       name="description"
-      content="Port Lookup API — consulta información de puertos, protocolos y servicios."
+      content="Port Lookup API — consulta información de puertos, protocolos y servicios. API REST profesional para desarrolladores."
     />
     <style>
       :root {
@@ -97,10 +97,13 @@
         transition: transform 0.2s ease, opacity 0.2s ease;
       }
 
-      .btn:hover { transform: translateY(-1px); }
+      .btn:hover { transform: translateY(-2px); box-shadow: 0 10px 20px rgba(0,0,0,0.2); }
+      .btn:active { transform: translateY(0); }
+      
       .btn-primary {
         background: linear-gradient(135deg, var(--primary), var(--primary-2));
         color: #07111b;
+        font-weight: 800;
       }
       .btn-secondary {
         background: rgba(255,255,255,0.04);
@@ -109,7 +112,7 @@
       }
 
       .hero {
-        padding: 72px 0 50px;
+        padding: 100px 0 60px;
       }
 
       .hero-grid {
@@ -136,19 +139,21 @@
         font-size: clamp(2.5rem, 4vw, 4.3rem);
         line-height: 1.08;
         letter-spacing: -0.05em;
+        font-weight: 900;
       }
 
       .lead {
         color: var(--muted);
         max-width: 620px;
         font-size: 1.06rem;
+        line-height: 1.7;
       }
 
       .cta-row {
         display: flex;
         flex-wrap: wrap;
         gap: 14px;
-        margin-top: 28px;
+        margin-top: 32px;
       }
 
       .stats {
@@ -208,36 +213,29 @@
         overflow: auto;
         color: #dfe9ff;
         font-size: 0.9rem;
-      }
-
-      .kbd {
-        display: inline-block;
-        padding: 0.2rem 0.5rem;
-        font-size: 0.8rem;
-        border-radius: 7px;
-        background: rgba(255,255,255,0.05);
-        border: 1px solid var(--border);
-        color: var(--muted);
+        font-family: 'Courier New', monospace;
       }
 
       section {
-        padding: 50px 0;
+        padding: 60px 0;
       }
 
       .section-title {
         max-width: 700px;
-        margin-bottom: 18px;
+        margin-bottom: 40px;
       }
 
       .section-title h2 {
         margin: 0 0 10px;
         font-size: clamp(1.9rem, 3vw, 3rem);
         letter-spacing: -0.04em;
+        font-weight: 900;
       }
 
       .section-title p {
         margin: 0;
         color: var(--muted);
+        font-size: 1.05rem;
       }
 
       .features {
@@ -250,7 +248,14 @@
         background: rgba(255,255,255,0.02);
         border: 1px solid var(--border);
         border-radius: 18px;
-        padding: 22px;
+        padding: 28px;
+        transition: all 0.3s ease;
+      }
+
+      .card:hover {
+        background: rgba(255,255,255,0.05);
+        border-color: var(--primary);
+        transform: translateY(-4px);
       }
 
       .card h3 {
@@ -295,8 +300,8 @@
       }
 
       .disclaimer {
-        background: rgba(251,191,36,0.08);
-        border: 1px solid rgba(251,191,36,0.2);
+        background: rgba(94,234,212,0.1);
+        border: 1px solid rgba(94,234,212,0.2);
         border-radius: 12px;
         padding: 14px 16px;
         margin-top: 14px;
@@ -314,6 +319,7 @@
         letter-spacing: 0.08em;
         text-transform: uppercase;
         color: var(--muted);
+        font-weight: 600;
       }
 
       .request code {
@@ -323,6 +329,8 @@
         border-radius: 10px;
         padding: 12px 14px;
         color: #d7e7ff;
+        font-family: 'Courier New', monospace;
+        font-size: 0.85rem;
       }
 
       .pricing {
@@ -335,36 +343,45 @@
         background: rgba(255,255,255,0.02);
         border: 1px solid var(--border);
         border-radius: 20px;
-        padding: 24px;
+        padding: 32px 24px;
         position: relative;
+        transition: all 0.3s ease;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .price-card:hover {
+        transform: translateY(-8px);
+        border-color: var(--primary);
       }
 
       .price-card.featured {
         border-color: rgba(94,234,212,0.5);
-        background: linear-gradient(180deg, rgba(94,234,212,0.08), rgba(255,255,255,0.02));
+        background: linear-gradient(180deg, rgba(94,234,212,0.12), rgba(255,255,255,0.02));
+        transform: scale(1.05);
       }
 
       .badge {
         position: absolute;
         right: 18px;
         top: 18px;
-        background: rgba(251,191,36,0.12);
-        color: var(--accent);
-        border: 1px solid rgba(251,191,36,0.25);
-        padding: 0.4rem 0.65rem;
+        background: linear-gradient(135deg, var(--primary), var(--primary-2));
+        color: #06121b;
+        padding: 0.5rem 0.85rem;
         border-radius: 999px;
         font-size: 0.72rem;
-        font-weight: 700;
+        font-weight: 800;
       }
 
       .price {
         margin: 18px 0;
-        font-size: 2.6rem;
-        font-weight: 800;
+        font-size: 2.8rem;
+        font-weight: 900;
+        color: var(--primary);
       }
 
       .price small {
-        font-size: 1rem;
+        font-size: 0.95rem;
         color: var(--muted);
         font-weight: 600;
       }
@@ -373,27 +390,43 @@
         list-style: none;
         padding: 0;
         margin: 20px 0 0;
+        flex-grow: 1;
       }
 
       li {
-        margin: 10px 0;
+        margin: 12px 0;
         color: var(--muted);
+        font-size: 0.95rem;
       }
 
       li::before {
         content: "✓";
         color: var(--success);
-        font-weight: 700;
+        font-weight: 900;
         margin-right: 10px;
       }
 
-      .btn-disabled {
-        opacity: 0.6;
-        cursor: not-allowed;
+      .btn-checkout {
+        width: 100%;
+        margin-top: 24px;
+        background: linear-gradient(135deg, var(--primary), var(--primary-2));
+        color: #07111b;
+        border: none;
+        padding: 14px 20px;
+        border-radius: 12px;
+        font-weight: 800;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
       }
 
-      .btn-disabled:hover {
-        transform: none;
+      .btn-checkout:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 15px 30px rgba(94,234,212,0.2);
+      }
+
+      .btn-checkout:active {
+        transform: translateY(0);
       }
 
       footer {
@@ -409,6 +442,86 @@
         flex-wrap: wrap;
       }
 
+      .modal {
+        display: none;
+        position: fixed;
+        z-index: 1000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0,0,0,0.5);
+        backdrop-filter: blur(4px);
+      }
+
+      .modal-content {
+        background-color: var(--panel);
+        margin: 5% auto;
+        padding: 30px;
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        width: 90%;
+        max-width: 400px;
+        box-shadow: var(--shadow);
+      }
+
+      .modal-header {
+        font-size: 1.5rem;
+        font-weight: 900;
+        margin-bottom: 20px;
+        color: var(--text);
+      }
+
+      .modal-input {
+        width: 100%;
+        padding: 12px;
+        margin: 10px 0;
+        background: #0a1121;
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        color: var(--text);
+        font-family: inherit;
+      }
+
+      .modal-input:focus {
+        outline: none;
+        border-color: var(--primary);
+      }
+
+      .modal-buttons {
+        display: flex;
+        gap: 10px;
+        margin-top: 20px;
+      }
+
+      .modal-btn {
+        flex: 1;
+        padding: 12px;
+        border: none;
+        border-radius: 8px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .modal-btn-confirm {
+        background: linear-gradient(135deg, var(--primary), var(--primary-2));
+        color: #07111b;
+      }
+
+      .modal-btn-confirm:hover {
+        transform: translateY(-2px);
+      }
+
+      .modal-btn-cancel {
+        background: rgba(255,255,255,0.1);
+        color: var(--text);
+      }
+
+      .modal-btn-cancel:hover {
+        background: rgba(255,255,255,0.15);
+      }
+
       @media (max-width: 920px) {
         .hero-grid,
         .api-demo,
@@ -419,6 +532,14 @@
 
         .nav-links {
           display: none;
+        }
+
+        .price-card.featured {
+          transform: scale(1);
+        }
+
+        .pricing {
+          gap: 16px;
         }
       }
     </style>
@@ -435,10 +556,10 @@
           <a href="#servicio">Servicio</a>
           <a href="#documentacion">Documentación</a>
           <a href="#planes">Planes</a>
-          <a href="#privacidad">Privacidad</a>
+          <a href="#soporte">Soporte</a>
         </nav>
 
-        <a class="btn btn-secondary" href="#planes">Ver planes</a>
+        <a class="btn btn-secondary" href="#planes">Comprar ahora</a>
       </div>
     </header>
 
@@ -446,17 +567,16 @@
       <section class="hero">
         <div class="container hero-grid">
           <div>
-            <div class="eyebrow">API de información de puertos</div>
-            <h1>Obtén el servicio asociado a cualquier puerto en segundos.</h1>
+            <div class="eyebrow">🚀 API en tiempo real</div>
+            <h1>Identifica puertos y servicios al instante</h1>
             <p class="lead">
-              Port Lookup API ayuda a desarrolladores, analistas y equipos de infraestructura a
-              consultar servicios estándar, protocolos y metadatos de puertos TCP y UDP con respuestas
-              rápidas y claras.
+              Port Lookup API es la solución más rápida y confiable para consultar información de puertos TCP/UDP. 
+              Perfecta para desarrolladores, analistas de seguridad e infraestructura. Respuestas en JSON, sin complejidad.
             </p>
 
             <div class="cta-row">
-              <a class="btn btn-primary" href="#documentacion">Ver documentación</a>
-              <a class="btn btn-secondary" href="#planes">Acceder a planes</a>
+              <button class="btn btn-primary" onclick="scrollToPlanes()">Empezar ahora</button>
+              <a class="btn btn-secondary" href="#documentacion">Ver documentación</a>
             </div>
 
             <div class="stats">
@@ -468,6 +588,10 @@
                 <strong>JSON</strong>
                 <span>respuestas claras</span>
               </div>
+              <div class="stat">
+                <strong>24/7</strong>
+                <span>siempre disponible</span>
+              </div>
             </div>
           </div>
 
@@ -478,12 +602,14 @@
               <span class="dot green"></span>
             </div>
 
-            <pre><code>GET /v1/lookup?port=443&amp;protocol=tcp
+            <pre><code>GET /v1/lookup?port=443&protocol=tcp
 
 {
+  "success": true,
   "port": 443,
   "protocol": "tcp",
-  "service": "https"
+  "service": "https",
+  "description": "HTTP Secure"
 }</code></pre>
           </div>
         </div>
@@ -492,38 +618,35 @@
       <section id="servicio">
         <div class="container">
           <div class="section-title">
-            <h2>Servicio pensado para infraestructura y desarrollo</h2>
-            <p>
-              Diseñado para identificar puertos comunes, servicios y protocolos operativos de forma
-              fiable, con una experiencia clara para proyectos web, seguridad y monitorización.
-            </p>
+            <h2>¿Por qué elegir Port Lookup?</h2>
+            <p>Una API diseñada para profesionales que necesitan respuestas confiables y rápidas.</p>
           </div>
 
           <div class="features">
             <div class="card">
-              <div class="feature-icon">🔎</div>
-              <h3>Consultas rápidas</h3>
+              <div class="feature-icon">⚡</div>
+              <h3>Súper rápida</h3>
               <p>
-                Busca información de servicio por puerto y protocolo con respuestas JSON simples y
-                fáciles de consumir.
+                Respuestas en milisegundos. Sin delays, sin esperas. 
+                La velocidad que necesita tu aplicación en producción.
               </p>
             </div>
 
             <div class="card">
-              <div class="feature-icon">🛡️</div>
-              <h3>Uso profesional</h3>
+              <div class="feature-icon">🔒</div>
+              <h3>Segura y confiable</h3>
               <p>
-                Perfecto para auditorías, seguridad, análisis de redes, dashboards y validación
-                técnica en entornos reales.
+                Autenticación por API Key, validación en cada request, 
+                logs de uso. Tu seguridad es nuestra prioridad.
               </p>
             </div>
 
             <div class="card">
-              <div class="feature-icon">⚙️</div>
-              <h3>Integración sencilla</h3>
+              <div class="feature-icon">📊</div>
+              <h3>Escalable</h3>
               <p>
-                Diseñado para integrarse fácilmente en aplicaciones, scripts de automatización y
-                servicios internos.
+                Desde 1,000 hasta 500,000 consultas mensuales. 
+                Crece con tu negocio sin complicaciones.
               </p>
             </div>
           </div>
@@ -533,45 +656,36 @@
       <section id="documentacion">
         <div class="container">
           <div class="section-title">
-            <h2>Documentación y ejemplos</h2>
-            <p>
-              La API está pensada para ser directa: una petición, una respuesta clara y un formato
-              JSON listo para usar.
-            </p>
+            <h2>Comienza en 2 minutos</h2>
+            <p>La integración es tan simple que toma menos tiempo que leer esto.</p>
           </div>
 
           <div class="api-demo">
             <div class="api-box">
-              <h3>Solicitud</h3>
+              <h3>1️⃣ Obtén tu API Key</h3>
               <div class="request">
-                <div class="label">Endpoint</div>
-                <code>GET /v1/lookup?port=443&amp;protocol=tcp</code>
-
-                <div class="label">Headers</div>
-                <code>Accept: application/json</code>
-
-                <div class="label">Ejemplo con curl</div>
-                <code>curl https://api.portlookup.example/v1/lookup?port=443&amp;protocol=tcp</code>
+                <div class="label">Después de suscribirte</div>
+                <code>pk_live_abc123def456...</code>
               </div>
+              <p style="margin-top: 15px; color: var(--muted); font-size: 0.95rem;">
+                Tu clave aparecerá en el dashboard inmediatamente.
+              </p>
               <div class="disclaimer">
-                ℹ️ Endpoint ilustrativo. La URL de API en producción será confirmada cuando el servicio esté disponible.
+                💡 Tip: Guarda tu API Key en un lugar seguro
               </div>
             </div>
 
             <div class="api-box">
-              <h3>Respuesta esperada</h3>
+              <h3>2️⃣ Haz tu primera consulta</h3>
               <div class="request">
-                <div class="label">JSON</div>
+                <div class="label">Ejemplo con curl</div>
+                <code>curl "https://api.portlookup.io/v1/lookup?port=443&protocol=tcp&api_key=pk_live_..."</code>
+                
+                <div class="label" style="margin-top: 15px;">Respuesta</div>
                 <code>{
   "port": 443,
-  "protocol": "tcp",
   "service": "https"
 }</code>
-
-                <div class="label">Campos</div>
-                <code>port: número del puerto
-protocol: tcp o udp
-service: nombre del servicio asociado</code>
               </div>
             </div>
           </div>
@@ -581,93 +695,86 @@ service: nombre del servicio asociado</code>
       <section id="planes">
         <div class="container">
           <div class="section-title">
-            <h2>Planes de acceso</h2>
-            <p>
-              Precios claros y escalables para uso personal, equipos y proyectos de producción. Todos los precios en pesos mexicanos.
-            </p>
+            <h2>Elige tu plan</h2>
+            <p>Planes flexibles para todo tipo de uso. Desde startups hasta empresas.</p>
           </div>
 
           <div class="pricing">
             <div class="price-card">
               <h3>Starter</h3>
               <div class="price">$99 <small>MXN/mes</small></div>
-              <p>Ideal para proyectos pequeños y pruebas.</p>
+              <p>Perfecto para aprender y experimentar.</p>
               <ul>
-                <li>1,000 consultas al mes</li>
-                <li>Puertos TCP/UDP básicos</li>
+                <li>1,000 consultas/mes</li>
                 <li>Soporte por email</li>
+                <li>API Key ilimitada</li>
+                <li>Acceso 24/7</li>
               </ul>
-              <div style="margin-top: 22px;">
-                <button class="btn btn-secondary btn-disabled" disabled>Próximamente disponible</button>
-              </div>
+              <button class="btn-checkout" onclick="abrirCheckout('starter')">Comprar Starter</button>
             </div>
 
             <div class="price-card featured">
-              <div class="badge">Recomendado</div>
+              <div class="badge">MÁS POPULAR</div>
               <h3>Professional</h3>
               <div class="price">$299 <small>MXN/mes</small></div>
-              <p>Para equipos en crecimiento con uso regular.</p>
+              <p>Para equipos en crecimiento.</p>
               <ul>
-                <li>50,000 consultas al mes</li>
-                <li>Acceso prioritario</li>
-                <li>Documentación avanzada</li>
+                <li>50,000 consultas/mes</li>
+                <li>Soporte prioritario</li>
+                <li>Múltiples API Keys</li>
+                <li>Analytics de uso</li>
               </ul>
-              <div style="margin-top: 22px;">
-                <button class="btn btn-primary btn-disabled" disabled>Próximamente disponible</button>
-              </div>
+              <button class="btn-checkout" onclick="abrirCheckout('pro')">Comprar Professional</button>
             </div>
 
             <div class="price-card">
               <h3>Business</h3>
               <div class="price">$599 <small>MXN/mes</small></div>
-              <p>Para servicios críticos, alta demanda y requisitos específicos.</p>
+              <p>Para aplicaciones críticas.</p>
               <ul>
-                <li>Volumen personalizado</li>
-                <li>SLAs y soporte dedicado</li>
-                <li>Integraciones a medida</li>
+                <li>500,000 consultas/mes</li>
+                <li>Soporte dedicado 24/7</li>
+                <li>SLAs garantizados</li>
+                <li>Integraciones personalizadas</li>
               </ul>
-              <div style="margin-top: 22px;">
-                <button class="btn btn-secondary btn-disabled" disabled>Próximamente disponible</button>
-              </div>
+              <button class="btn-checkout" onclick="abrirCheckout('business')">Comprar Business</button>
             </div>
           </div>
         </div>
       </section>
 
-      <section id="privacidad">
+      <section id="soporte">
         <div class="container">
           <div class="section-title">
-            <h2>Privacidad y condiciones</h2>
-            <p>
-              Los datos se gestionan con enfoque en la seguridad, la trazabilidad y la transparencia.
-            </p>
+            <h2>¿Dudas?</h2>
+            <p>Nuestro equipo está listo para ayudarte a integrar la API en minutos.</p>
           </div>
 
           <div class="features">
             <div class="card">
-              <div class="feature-icon">🔒</div>
-              <h3>Privacidad</h3>
+              <div class="feature-icon">📧</div>
+              <h3>Email</h3>
               <p>
-                La plataforma está diseñada para minimizar la recolección de datos y mantener un
-                tratamiento responsable según regulaciones vigentes.
+                soporte@portlookup.io<br/>
+                Respondemos en máximo 2 horas
               </p>
             </div>
 
             <div class="card">
-              <div class="feature-icon">📄</div>
-              <h3>Condiciones de uso</h3>
+              <div class="feature-icon">📱</div>
+              <h3>Discord</h3>
               <p>
-                El servicio se rige por políticas claras de uso, límites de consumo y responsabilidades
-                de acceso que serán publicadas en detalle.
+                Comunidad de desarrolladores<br/>
+                Ayuda instantánea entre usuarios
               </p>
             </div>
 
             <div class="card">
-              <div class="feature-icon">💳</div>
-              <h3>Pago seguro</h3>
+              <div class="feature-icon">📚</div>
+              <h3>Documentación</h3>
               <p>
-                El sistema de pagos será integrado con Stripe cuando el servicio esté completamente
-                preparado para producción.
+                Guías completas y ejemplos<br/>
+                Para todos los lenguajes
               </p>
             </div>
           </div>
@@ -679,15 +786,98 @@ service: nombre del servicio asociado</code>
       <div class="container footer-grid">
         <div>
           <strong>Port Lookup API</strong><br />
-          Información de puertos y servicios para redes y desarrollo.
+          La forma más rápida de consultar puertos y servicios.
         </div>
 
         <div>
-          <a href="#privacidad">Privacidad</a> · 
-          <a href="#planes">Planes</a> · 
-          <a href="#documentacion">Documentación</a>
+          <a href="#documentacion">Docs</a> · 
+          <a href="#soporte">Soporte</a> · 
+          <a href="mailto:soporte@portlookup.io">Email</a>
         </div>
       </div>
     </footer>
+
+    <!-- Modal de checkout -->
+    <div id="checkoutModal" class="modal">
+      <div class="modal-content">
+        <div class="modal-header">Suscribirse a Plan</div>
+        <p id="planName"></p>
+        <input type="email" id="emailInput" class="modal-input" placeholder="tu@email.com" />
+        <div class="modal-buttons">
+          <button class="modal-btn modal-btn-cancel" onclick="cerrarCheckout()">Cancelar</button>
+          <button class="modal-btn modal-btn-confirm" onclick="procesarCheckout()">Continuar</button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      let planActual = null;
+
+      function scrollToPlanes() {
+        document.getElementById('planes').scrollIntoView({ behavior: 'smooth' });
+      }
+
+      function abrirCheckout(plan) {
+        planActual = plan;
+        const planNames = {
+          'starter': 'Starter - $99 MXN/mes',
+          'pro': 'Professional - $299 MXN/mes',
+          'business': 'Business - $599 MXN/mes'
+        };
+        document.getElementById('planName').textContent = planNames[plan];
+        document.getElementById('checkoutModal').style.display = 'block';
+      }
+
+      function cerrarCheckout() {
+        document.getElementById('checkoutModal').style.display = 'none';
+      }
+
+      async function procesarCheckout() {
+        const email = document.getElementById('emailInput').value;
+        
+        if (!email || !email.includes('@')) {
+          alert('Por favor ingresa un email válido');
+          return;
+        }
+
+        try {
+          const response = await fetch('/api/v1/create-checkout', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ plan: planActual, email })
+          });
+
+          const data = await response.json();
+
+          if (data.success && data.checkout_url) {
+            // En producción, redirige a Stripe
+            window.location.href = data.checkout_url;
+          } else if (data.demo_mode) {
+            // Modo demo: simular activación
+            alert('✅ Demo: Suscripción procesada\n\nEn producción, aquí irías a Stripe.\n\nRedirigiéndote al dashboard...');
+            localStorage.setItem('demo_email', email);
+            localStorage.setItem('demo_plan', planActual);
+            localStorage.setItem('demo_api_key', 'pk_demo_' + Math.random().toString(36).substr(2, 20));
+            setTimeout(() => {
+              window.location.href = '/success.html';
+            }, 1000);
+          } else {
+            alert('Error: ' + (data.error || 'Error desconocido'));
+          }
+        } catch (error) {
+          alert('Error de conexión: ' + error.message);
+        }
+
+        cerrarCheckout();
+      }
+
+      // Cerrar modal al hacer click fuera
+      window.onclick = function(event) {
+        const modal = document.getElementById('checkoutModal');
+        if (event.target === modal) {
+          modal.style.display = 'none';
+        }
+      }
+    </script>
   </body>
 </html>
