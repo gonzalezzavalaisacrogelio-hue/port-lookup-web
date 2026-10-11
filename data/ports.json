@@ -1,0 +1,21 @@
+{
+  "80/tcp": { "service": "http", "description": "HyperText Transfer Protocol", "uses": ["Sitios web", "Servidores web"] },
+  "443/tcp": { "service": "https", "description": "HTTP Secure", "uses": ["Sitios web seguros", "E-commerce"] },
+  "22/tcp": { "service": "ssh", "description": "Secure Shell", "uses": ["Acceso remoto", "Git", "Administración de servidores"] },
+  "21/tcp": { "service": "ftp", "description": "File Transfer Protocol", "uses": ["Transferencia de archivos", "Hosting"] },
+  "25/tcp": { "service": "smtp", "description": "Simple Mail Transfer Protocol", "uses": ["Envío de emails"] },
+  "53/tcp": { "service": "dns", "description": "Domain Name System", "uses": ["Resolución de dominios"] },
+  "53/udp": { "service": "dns", "description": "Domain Name System (UDP)", "uses": ["Resolución de dominios"] },
+  "110/tcp": { "service": "pop3", "description": "Post Office Protocol v3", "uses": ["Descarga de emails"] },
+  "143/tcp": { "service": "imap", "description": "Internet Message Access Protocol", "uses": ["Acceso a emails", "Clientes de correo"] },
+  "3306/tcp": { "service": "mysql", "description": "MySQL Database", "uses": ["Bases de datos", "WordPress"] },
+  "5432/tcp": { "service": "postgresql", "description": "PostgreSQL Database", "uses": ["Bases de datos", "Aplicaciones enterprise"] },
+  "5900/tcp": { "service": "vnc", "description": "Virtual Network Computing", "uses": ["Escritorio remoto", "Control remoto"] },
+  "8080/tcp": { "service": "http-alt", "description": "HTTP Alternate", "uses": ["Servidores web alternos", "Proxies"] },
+  "8443/tcp": { "service": "https-alt", "description": "HTTPS Alternate", "uses": ["Servidores web seguros alternos"] },
+  "3389/tcp": { "service": "rdp", "description": "Remote Desktop Protocol", "uses": ["Escritorio remoto Windows", "Acceso remoto"] },
+  "27017/tcp": { "service": "mongodb", "description": "MongoDB Database", "uses": ["Bases de datos NoSQL", "Aplicaciones web"] },
+  "6379/tcp": { "service": "redis", "description": "Redis Cache", "uses": ["Caché", "Sesiones", "Colas de trabajo"] },
+  "5672/tcp": { "service": "amqp", "description": "Advanced Message Queuing Protocol", "uses": ["Mensajería", "Colas de trabajo"] },
+  "9200/tcp": { "service": "elasticsearch", "description": "Elasticsearch", "uses": ["Búsqueda", "Analytics"] }
+}
