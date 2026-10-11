@@ -1,0 +1,251 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard - Port Lookup API</title>
+  <style>
+    :root {
+      --bg: #0b1020;
+      --panel: #121a2f;
+      --text: #edf2ff;
+      --primary: #5eead4;
+      --success: #22c55e;
+      --border: rgba(255,255,255,0.08);
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: Inter, 'Segoe UI', sans-serif;
+      background: linear-gradient(180deg, var(--bg) 0%, #101827 100%);
+      color: var(--text);
+      line-height: 1.6;
+    }
+    .container { width: min(1120px, calc(100% - 32px)); margin: 0 auto; padding: 20px; }
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      backdrop-filter: blur(12px);
+      background: rgba(11,16,32,0.75);
+      border-bottom: 1px solid var(--border);
+      padding: 20px 0;
+    }
+    .nav { display: flex; justify-content: space-between; align-items: center; }
+    .brand { display: flex; gap: 12px; align-items: center; font-weight: 700; }
+    .brand-mark {
+      width: 34px;
+      height: 34px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, var(--primary), #60a5fa);
+      color: #06121b;
+      font-weight: 900;
+      display: grid;
+      place-items: center;
+    }
+    .btn {
+      padding: 0.75rem 1rem;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      font-weight: 600;
+      background: rgba(255,255,255,0.1);
+      color: var(--text);
+    }
+    .btn:hover { background: rgba(255,255,255,0.15); }
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+      margin-top: 30px;
+    }
+    .card {
+      background: rgba(255,255,255,0.02);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 24px;
+    }
+    .card h3 { margin-top: 0; }
+    .stat-value { font-size: 2.5rem; font-weight: 800; color: var(--primary); }
+    .stat-label { color: rgba(255,255,255,0.6); font-size: 0.9rem; margin-top: 8px; }
+    .api-key-box {
+      background: #0a1121;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 12px;
+      margin: 16px 0;
+      font-family: monospace;
+      font-size: 0.85rem;
+      overflow: auto;
+      word-break: break-all;
+    }
+    .test-section {
+      margin-top: 40px;
+      background: rgba(255,255,255,0.02);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 24px;
+    }
+    input, textarea {
+      width: 100%;
+      padding: 10px;
+      margin: 8px 0;
+      background: #0a1121;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text);
+      font-family: monospace;
+    }
+    input:focus, textarea:focus { outline: none; border-color: var(--primary); }
+    .btn-primary {
+      background: linear-gradient(135deg, var(--primary), #60a5fa);
+      color: #06121b;
+      margin-top: 10px;
+    }
+    .btn-primary:hover { transform: translateY(-2px); }
+    .response-box {
+      background: #0a1121;
+      border: 1px solid var(--success);
+      border-radius: 8px;
+      padding: 16px;
+      margin-top: 16px;
+      font-family: monospace;
+      font-size: 0.85rem;
+      max-height: 300px;
+      overflow: auto;
+    }
+    .error { border-color: #ef4444; }
+    .success { border-color: var(--success); }
+    footer { margin-top: 60px; padding: 40px 0; border-top: 1px solid var(--border); text-align: center; color: rgba(255,255,255,0.6); }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container nav">
+      <div class="brand">
+        <div class="brand-mark">P</div>
+        <span>Port Lookup API - Dashboard</span>
+      </div>
+      <button class="btn" onclick="logout()">Cerrar sesión</button>
+    </div>
+  </header>
+
+  <main>
+    <div class="container">
+      <h1>Tu panel de control</h1>
+      <p>Bienvenido a tu dashboard. Aquí puedes ver tu uso de la API y probar tus consultas.</p>
+
+      <div class="dashboard-grid">
+        <div class="card">
+          <h3>Plan actual</h3>
+          <div class="stat-value" id="planName">-</div>
+          <div class="stat-label">Activo desde hoy</div>
+        </div>
+
+        <div class="card">
+          <h3>Consultas disponibles</h3>
+          <div class="stat-value" id="queriesAvailable">-</div>
+          <div class="stat-label">Este mes</div>
+        </div>
+
+        <div class="card">
+          <h3>Consultas usadas</h3>
+          <div class="stat-value" id="queriesUsed">0</div>
+          <div class="stat-label">Restantes: <span id="queriesRemaining">-</span></div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top: 30px;">
+        <h3>Tu API Key</h3>
+        <p>Copia esta clave para usar en tus solicitudes:</p>
+        <div class="api-key-box" id="apiKeyDisplay">Cargando...</div>
+        <button class="btn" onclick="copyApiKey()" style="margin-top: 10px;">Copiar clave</button>
+      </div>
+
+      <div class="test-section">
+        <h2>Prueba tu API</h2>
+        <p>Usa este formulario para probar una consulta real:</p>
+        
+        <div>
+          <label>Puerto:</label>
+          <input type="number" id="testPort" value="443" min="1" max="65535" />
+        </div>
+
+        <div>
+          <label>Protocolo:</label>
+          <select id="testProtocol" style="width: 100%; padding: 10px; margin: 8px 0; background: #0a1121; border: 1px solid var(--border); border-radius: 8px; color: var(--text);">
+            <option value="tcp">TCP</option>
+            <option value="udp">UDP</option>
+          </select>
+        </div>
+
+        <button class="btn btn-primary" onclick="testApi()">Consultar API</button>
+
+        <div id="responseContainer" style="display: none;">
+          <h3 style="margin-top: 30px;">Respuesta:</h3>
+          <div id="responseBox" class="response-box"></div>
+        </div>
+      </div>
+    </div>
+
+    <footer>
+      <p>© 2024 Port Lookup API. Todos los derechos reservados.</p>
+    </footer>
+  </main>
+
+  <script>
+    // Datos mock para demo
+    const userData = {
+      plan: 'Professional',
+      queries_limit: 50000,
+      queries_used: 12,
+      api_key: 'pk_' + Math.random().toString(36).substr(2, 32).toUpperCase()
+    };
+
+    document.addEventListener('DOMContentLoaded', () => {
+      loadDashboard();
+    });
+
+    function loadDashboard() {
+      document.getElementById('planName').textContent = userData.plan;
+      document.getElementById('queriesAvailable').textContent = userData.queries_limit.toLocaleString();
+      document.getElementById('queriesUsed').textContent = userData.queries_used;
+      document.getElementById('queriesRemaining').textContent = (userData.queries_limit - userData.queries_used).toLocaleString();
+      document.getElementById('apiKeyDisplay').textContent = userData.api_key;
+    }
+
+    function copyApiKey() {
+      const apiKey = userData.api_key;
+      navigator.clipboard.writeText(apiKey).then(() => {
+        alert('API Key copiada al portapapeles');
+      });
+    }
+
+    async function testApi() {
+      const port = document.getElementById('testPort').value;
+      const protocol = document.getElementById('testProtocol').value;
+      const responseBox = document.getElementById('responseBox');
+      const responseContainer = document.getElementById('responseContainer');
+
+      try {
+        const response = await fetch(`/api/v1/lookup?port=${port}&protocol=${protocol}&api_key=${userData.api_key}`);
+        const data = await response.json();
+
+        responseBox.textContent = JSON.stringify(data, null, 2);
+        responseBox.className = 'response-box ' + (data.success ? 'success' : 'error');
+        responseContainer.style.display = 'block';
+      } catch (error) {
+        responseBox.textContent = 'Error: ' + error.message;
+        responseBox.className = 'response-box error';
+        responseContainer.style.display = 'block';
+      }
+    }
+
+    function logout() {
+      alert('Sesión cerrada');
+      window.location.href = '/';
+    }
+  </script>
+</body>
+</html>
